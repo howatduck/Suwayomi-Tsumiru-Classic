@@ -21,6 +21,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// PoC: API 23 (Android 6.0.1) target. Kept in a variable because the Flutter
+// tool's MinSdkVersionMigration rewrites any literal 16-23 minSdk line back to
+// flutter.minSdkVersion (=24) on every `flutter build`.
+def pocMinSdkVersion = 23
+
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
@@ -44,7 +49,7 @@ android {
 
     defaultConfig {
         applicationId "io.github.aaronbamblett.tsumiru"
-        minSdk flutter.minSdkVersion // raised for flutter_foreground_task (Android 6.0+)
+        minSdkVersion pocMinSdkVersion // PoC: legacy Android 6.0.1 (API 23) build
         targetSdk flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

@@ -5,6 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
@@ -97,6 +98,19 @@ void main() {
 
 Future<void> _startApp() async {
   _TsumiruWidgetsBinding.ensureInitialized();
+  // PoC (API 23): Android 6's platform trust store predates the ISRG roots,
+  // so dart:io cannot verify modern Let's Encrypt chains (a typical
+  // chain ends at ISRG Root X1/X2 via Root YE). Trust the ISRG roots
+  // explicitly; harmless on newer devices where they are already present.
+  if (!kIsWeb) {
+    try {
+      final isrgRoots = await rootBundle.load('assets/certs/isrg_roots.pem');
+      SecurityContext.defaultContext
+          .setTrustedCertificatesBytes(isrgRoots.buffer.asUint8List());
+    } catch (_) {
+      // Non-fatal: keep the platform/bundled store as-is.
+    }
+  }
   if (kIsWeb) {
     await BrowserContextMenu.disableContextMenu();
   }

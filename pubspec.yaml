@@ -9,7 +9,7 @@ environment:
   sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
-  app_links: ^7.2.1
+  app_links: 6.4.1
   collection: ^1.19.0
   cached_network_image: ^3.2.2
   cached_network_image_platform_interface: ^4.0.0
@@ -36,7 +36,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown_plus: ^1.0.12
-  flutter_secure_storage: ^11.2.0
+  flutter_secure_storage: 10.3.1
   flutter_staggered_grid_view: ^0.7.0
   fluttertoast: ^10.0.0
   freezed_annotation: ^3.0.0
@@ -72,12 +72,20 @@ dependencies:
   gal: ^2.3.2
   image: ^4.8.0
   window_manager: ^0.5.2
-  flutter_local_notifications: ^22.1.0
+  flutter_local_notifications: 20.1.0
   workmanager: ^0.10.9
   battery_plus: ^7.1.1
   uuid: ^4.6.0
   pointycastle: ^4.0.0
   web: ^1.1.0
+
+dependency_overrides:
+  # PoC API23: pin transitive Android impls to last API<=23-compatible releases
+  url_launcher_android: 6.3.16
+  shared_preferences_android: 2.4.7
+  # PoC API23: vendored wakelock_plus 1.8.0 with minSdk literal 21 (was flutter.minSdkVersion=24)
+  wakelock_plus:
+    path: ./third_party/wakelock_plus
 
 dev_dependencies:
   build_runner: ^2.4.14
@@ -108,6 +116,7 @@ flutter:
   # assets/icons/launcher/ holds build-time sources only and stays out of the bundle.
   assets:
     - assets/icons/
+    - assets/certs/isrg_roots.pem
     - assets/licenses/
     - assets/fonts/inter/OFL.txt
   fonts:
