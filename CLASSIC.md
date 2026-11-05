@@ -11,6 +11,25 @@ and library loading all work.
 > This is an unofficial fork. All credit for the app itself goes to the
 > Suwayomi project. Licensed under MPL-2.0, same as upstream.
 
+## Security notice
+
+**Use at your own risk.** Keeping an old device usable means accepting
+risks that upstream no longer carries:
+
+- This fork **downgrades several plugins** to older versions and targets
+  **Android 6, which has been out of OS security support for years**.
+  Vulnerabilities fixed upstream after those versions stay unfixed here.
+- The bundled ISRG root certificates are a **snapshot**; they do not
+  update themselves. If the Let's Encrypt hierarchy changes, old builds
+  may stop verifying servers until a new Classic build is made.
+- Release APKs are signed with a **local, project-specific key** (not
+  the upstream key, not a Play Store key). Only install builds from this
+  repository's Releases, or build from source and sign with your own key.
+- There is **no warranty and no security support**. You are responsible
+  for your own security: prefer a dedicated device and trusted networks,
+  and do not reuse credentials you would not risk on an unpatched
+  Android 6 device.
+
 ## Why the stock app fails on API 23
 
 1. **minSdk 24** — five plugins declare API 24 as their floor, so the APK
@@ -109,5 +128,11 @@ dropped.
 
 ## Status
 
-- v1.6.4 + Classic patches, arm64-v8a: **fully working** (see Releases).
-- armeabi-v7a: builds and runs; the TLS fix build is pending.
+- v1.6.4 + Classic patches (see Releases):
+  - arm64-v8a: **fully working** on a real Android 6.0.1 device.
+  - armeabi-v7a: built with the same patch stack including the TLS fix.
+  - universal (arm64 + armv7 + x86_64 in one APK): built with the same
+    patch stack; the x86_64 engine binary carries the same `LIBC_N`
+    references, so it receives the same shim treatment (x86_64 shim
+    included). Not yet device-tested — there is no x86_64 Android 6
+    device in the test pool.
