@@ -100,7 +100,7 @@ void main() {
 Future<void> _startApp() async {
   _TsumiruWidgetsBinding.ensureInitialized();
   // PoC (API 23): Android 6's platform trust store predates the ISRG roots,
-  // so dart:io cannot verify modern Let's Encrypt chains (a typical
+  // so dart:io cannot verify modern Let's Encrypt chains (the kracc server
   // chain ends at ISRG Root X1/X2 via Root YE). Trust the ISRG roots
   // explicitly; harmless on newer devices where they are already present.
   if (!kIsWeb) {

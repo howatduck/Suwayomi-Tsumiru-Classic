@@ -1,10 +1,10 @@
 # Tsumiru Classic
 
 A patch stack on top of [Suwayomi-Tsumiru](https://github.com/Suwayomi/Suwayomi-Tsumiru)
-that brings the app back to **Android 6.0.1 (API 23)** — one level below the
+that brings the app back to **Android 6.0 (API 23)** — one level below the
 upstream minimum of API 24 (Android 7.0).
 
-Verified end-to-end on a Quanta Ellipsis QTASUN1 (Android 6.0.1, arm64):
+Verified end-to-end on a Quanta Ellipsis QTASUN1 (Android 6.0, arm64):
 install, launch, TLS connection to a Suwayomi server over HTTPS, UI login,
 and library loading all work.
 
@@ -128,8 +128,14 @@ dropped.
 
 ## Status
 
+- v1.6.5 + Classic patches (see Releases, tag `v1.6.5-classic.1`):
+  same patch stack as below, re-applied onto upstream v1.6.5
+  (Flutter 3.47.9). The upstream `LocalizationPlugin` smali target and
+  the four `LIBC_N` engine symbols are unchanged from v1.6.4, so the
+  post-build patches carry over verbatim. All three builds verified:
+  minSdk 23, versionName 1.6.5, signature valid.
 - v1.6.4 + Classic patches (see Releases):
-  - arm64-v8a: **fully working** on a real Android 6.0.1 device.
+  - arm64-v8a: **fully working** on a real Android 6.0 device.
   - armeabi-v7a: built with the same patch stack including the TLS fix.
   - universal (arm64 + armv7 + x86_64 in one APK): built with the same
     patch stack; the x86_64 engine binary carries the same `LIBC_N`
