@@ -5,14 +5,14 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../../../constants/db_keys.dart';
 import '../../../../constants/enum.dart';
 import '../../../../graphql/__generated__/schema.graphql.dart';
 import '../../../../routes/router_config.dart';
 import '../../../../utils/extensions/custom_extensions.dart';
-
 import '../../../../utils/misc/app_utils.dart';
 import '../../../../utils/misc/toast/toast.dart';
 import '../../../../utils/motion/reduce_motion.dart';
@@ -27,6 +27,7 @@ import '../../../account/data/account_providers.dart';
 import '../../../library/data/default_category.dart';
 import '../../../library/domain/category/category_model.dart';
 import '../../../library/presentation/category/controller/edit_category_controller.dart';
+import '../../../library/presentation/library/controller/category_library_options.dart';
 import '../../../library/presentation/library/controller/library_controller.dart';
 import '../../../manga_book/presentation/manga_details/controller/manga_details_controller.dart';
 import '../../controller/server_controller.dart';
@@ -185,6 +186,20 @@ class LibrarySettingsScreen extends ConsumerWidget {
                                       ),
                                       animationStyle: context.motionStyle,
                                     ),
+                            ),
+                          ),
+                          SettingsHighlightTarget(
+                            id: 'perCategorySortAndFilters',
+                            child: SwitchListTile(
+                              title: Text(
+                                context.l10n.perCategorySortAndFilters,
+                              ),
+                              value: ref.watch(
+                                libraryPerCategorySettingsProvider,
+                              ) ?? false,
+                              onChanged: ref.read(
+                                libraryPerCategorySettingsProvider.notifier,
+                              ).update,
                             ),
                           ),
                         ],

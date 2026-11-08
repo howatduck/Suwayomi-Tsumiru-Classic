@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 class NextScrollIntent extends Intent {}
 
@@ -67,23 +67,25 @@ ShortcutManager readerShortcutManager(Axis scrollDirection,
             isRtl ? PreviousScrollIntent() : NextScrollIntent(),
         const SingleActivator(LogicalKeyboardKey.comma):
             PreviousChapterIntent(),
+        const SingleActivator(LogicalKeyboardKey.keyP): PreviousChapterIntent(),
         const SingleActivator(LogicalKeyboardKey.period): NextChapterIntent(),
+        const SingleActivator(LogicalKeyboardKey.keyN): NextChapterIntent(),
         const SingleActivator(LogicalKeyboardKey.arrowUp):
             scrollDirection == Axis.vertical
                 ? ViewportScrollBackwardIntent()
-                : NextChapterIntent(),
+                : PreviousScrollIntent(),
         const SingleActivator(LogicalKeyboardKey.keyW):
             scrollDirection == Axis.vertical
                 ? ViewportScrollBackwardIntent()
-                : NextChapterIntent(),
+                : PreviousScrollIntent(),
         const SingleActivator(LogicalKeyboardKey.arrowDown):
             scrollDirection == Axis.vertical
                 ? ViewportScrollForwardIntent()
-                : PreviousChapterIntent(),
+                : NextScrollIntent(),
         const SingleActivator(LogicalKeyboardKey.keyS):
             scrollDirection == Axis.vertical
                 ? ViewportScrollForwardIntent()
-                : PreviousChapterIntent(),
+                : NextScrollIntent(),
         const SingleActivator(LogicalKeyboardKey.pageUp):
             ViewportScrollBackwardIntent(),
         const SingleActivator(LogicalKeyboardKey.pageDown):

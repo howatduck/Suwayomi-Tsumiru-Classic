@@ -10,11 +10,11 @@ import 'dart:io';
 import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus_linux_portal/connectivity_plus_linux_portal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
@@ -49,6 +49,7 @@ import 'src/features/offline/data/offline_runtime_storage.dart';
 import 'src/features/offline/data/offline_server_identity_repository.dart';
 import 'src/features/onboarding/data/onboarding_complete.dart';
 import 'src/features/settings/data/grid_cover_preference_migration.dart';
+import 'src/features/settings/data/reader_animation_preference_migration.dart';
 import 'src/features/settings/presentation/server/widget/client/server_port_tile/server_port_tile.dart';
 import 'src/features/settings/presentation/server/widget/client/server_url_tile/hosted_base_uri.dart';
 import 'src/features/settings/presentation/server/widget/client/server_url_tile/server_url_tile.dart';
@@ -168,6 +169,12 @@ Future<void> _startApp() async {
     }
   } catch (e, st) {
     debugPrint('readerIgnoreSafeArea migration failed: $e\n$st');
+  }
+
+  try {
+    await migrateReaderAnimationPreference(sharedPreferences);
+  } catch (e, st) {
+    debugPrint('reader animation merge migration failed: $e\n$st');
   }
 
   try {

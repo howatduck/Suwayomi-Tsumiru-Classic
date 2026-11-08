@@ -1,4 +1,5 @@
 {
+  "perCategorySortAndFilters": "Per-category settings for sort and filters",
   "settingsSearchHint": "Search settings",
   "accountPermissionDenied": "Your account does not have permission for this action.",
   "migrationIdentityUnavailable": "Connect to your server and sign in before migrating.",
@@ -962,9 +963,6 @@
   "@readerPadding": {
     "description": "Slider title text for Reader Padding"
   },
-  "@readerScrollAnimation": {
-    "description": "Switch title to Disable scroll animation in reader screen"
-  },
   "@readerFeedbackToasts": {
     "description": "Switch title for the toggle that shows reader feedback toasts"
   },
@@ -1513,9 +1511,9 @@
   },
   "smallerTapZones": "Smaller tap zones",
   "smoothAutoScroll": "Smooth Auto Scroll",
-  "scrollAmount": "Keyboard scroll distance",
+  "scrollAmount": "Scroll distance",
   "@scrollAmount": {
-    "description": "Keyboard scroll step, fraction of the screen"
+    "description": "Long strip scroll step for taps, volume keys and the keyboard, as a fraction of the screen"
   },
   "scrollAmountTiny": "Tiny",
   "scrollAmountSmall": "Small",
@@ -2483,7 +2481,6 @@
   "readerOverlay": "Reader initial overlay",
   "readerOverlaySubtitle": "Shows title and quick settings when opening a chapter",
   "readerPadding": "Reader padding",
-  "readerScrollAnimation": "Scroll animation",
   "readerFeedbackToasts": "Reading feedback toasts",
   "readerFeedbackToastsSubtitle": "Show messages like \"loading next chapter\" and \"no more chapters\"",
   "readerSwipeChapterToggle": "Swipe toggle",
@@ -4029,7 +4026,6 @@
   "accountPreviousPage": "Previous page",
   "accountRole": "Role",
   "accountBuiltInReadOnly": "The built-in administrator’s role and permissions cannot be changed.",
-  "accountNoUserRemoval": "User deletion is not currently supported on this server.",
   "accountCodeShownOnce": "Copy this code before closing. It will not be shown again.",
   "accountCodeExpires": "Expires {date}",
   "@accountCodeExpires": {"placeholders": {"date": {"type": "String"}}},
@@ -4495,6 +4491,10 @@
   "confirmOverwriteSearchTitle": "Overwrite saved search",
   "confirmOverwriteSearchMessage": "This replaces the query and filters saved under this name.",
   "confirmOverwriteAction": "Overwrite",
+  "savedSearchInvalid": "Saved search invalid, filters have changed",
+  "@savedSearchInvalid": {
+    "description": "Toast shown when a saved search no longer matches the source filters."
+  },
   "confirmDeleteBothDownloadsMessage": "This deletes the downloaded chapter from the server and this device, including matching scanlator copies.",
   "confirmDeleteDeviceMessage": "This removes the chapter download from this device.",
   "confirmDeleteSeriesDeviceMessage": "This stops keeping the series offline and deletes all its device downloads.",

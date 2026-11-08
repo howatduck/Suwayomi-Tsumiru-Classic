@@ -4,7 +4,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'app_theme.dart';
 import 'enum.dart';
@@ -44,7 +44,6 @@ enum DBKeys {
   quickSearchToggle(true),
   swipeToggle(true),
   lastPageSwipeEnabled(false),
-  scrollAnimation(true),
   showNSFW(true),
   showRecommendations(true),
   recommendsInOverflow(false),
@@ -102,7 +101,7 @@ enum DBKeys {
   readerFeedbackToasts(true),
   volumeTap(false),
   volumeTapInvert(false),
-  keepScreenOn(true),
+  keepScreenOn(false),
   hideEmptyCategory(false),
   showUpdateProgressBanner(true),
   sidebarExpanded(true),
@@ -183,6 +182,7 @@ enum DBKeys {
   filterTagsInclude(<String>[]),
   filterTagsExclude(<String>[]),
   librarySortRandomSeed(0),
+  libraryPerCategorySettings(false),
   // Description substring matching adds an O(n²) duplicate scan.
   libraryDuplicatesCheckDescription(false),
   forceHorizontalSeekbar(false),
@@ -234,13 +234,10 @@ enum DBKeys {
   longStripWidthLimitPercent(100),
   longStripWidthLimitPx(800),
   cropBordersWebtoon(false),
-  cropBordersGaps(false),
   smoothAutoScroll(true),
   readerScrollAmount(ReaderScrollAmount.large),
   autoScrollIntervalSeconds(3),
   autoAdvanceIntervalSeconds(5),
-  dualPageSplitWebtoon(false),
-  dualPageInvertWebtoon(false),
   readerBackgroundColor(ReaderBackgroundColor.black),
   showPageNumber(true),
   landscapeVerticalSeekbar(false),

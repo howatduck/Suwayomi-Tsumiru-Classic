@@ -4,8 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../../../../../constants/enum.dart';
 import '../../../../../../../utils/extensions/custom_extensions.dart';
@@ -155,8 +155,6 @@ class ReadingModeTab extends ConsumerWidget {
               ? _LongStripSection(
                   key: const ValueKey('longStrip'),
                   mangaId: mangaId,
-                  showGapsSettings:
-                      resolvedMode == ReaderMode.continuousVertical,
                 )
               : _PagedSection(key: const ValueKey('paged'), mangaId: mangaId),
         ),
@@ -319,14 +317,9 @@ class _PagedSection extends ConsumerWidget {
 }
 
 class _LongStripSection extends ConsumerWidget {
-  const _LongStripSection({
-    super.key,
-    required this.mangaId,
-    required this.showGapsSettings,
-  });
+  const _LongStripSection({super.key, required this.mangaId});
 
   final int mangaId;
-  final bool showGapsSettings;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -422,15 +415,6 @@ class _LongStripSection extends ConsumerWidget {
           value: settings.longStripDisableZoomOut,
           onChanged: model.setLongStripDisableZoomOut,
         ),
-        if (showGapsSettings) ...[
-          _SectionLabel(context.l10n.readerModeChipLongStripGaps),
-          CompactSwitchListTile(
-            controlAffinity: ListTileControlAffinity.trailing,
-            title: Text(context.l10n.cropBorders),
-            value: settings.cropBordersGaps,
-            onChanged: model.setCropBordersGaps,
-          ),
-        ],
       ],
     );
   }

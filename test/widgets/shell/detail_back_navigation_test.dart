@@ -7,7 +7,6 @@
 import 'dart:convert';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +14,7 @@ import 'package:graphql/client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tsumiru/src/constants/enum.dart';
 import 'package:tsumiru/src/features/browse_center/domain/source/source_model.dart';
@@ -351,11 +351,15 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('a deep link straight to a series shows no back button', (
+  testWidgets('a deep link straight to a series goes back to the library', (
     tester,
   ) async {
     await _pump(tester, const Size(412, 915), location: '/manga/1');
     expect(find.byType(MangaDetailsScreen), findsOneWidget);
-    expect(find.byType(BackButton), findsNothing);
+    expect(find.byType(BackButton), findsOneWidget);
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('LIBRARY'), findsOneWidget);
+    expect(find.byType(MangaDetailsScreen), findsNothing);
   });
 }

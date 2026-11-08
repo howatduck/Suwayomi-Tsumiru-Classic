@@ -7,8 +7,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../../../constants/app_distribution.dart';
 import '../../../constants/app_theme.dart';
@@ -224,6 +224,15 @@ List<SettingsSearchEntry> get librarySettingsSearchEntries => [
     open: (c) =>
         const LibrarySettingsRoute(highlight: 'defaultCategory').push(c),
     visible: (ref, _) => _serverReachable(ref),
+  ),
+  SettingsSearchEntry(
+    id: 'perCategorySortAndFilters',
+    title: (l) => l.perCategorySortAndFilters,
+    breadcrumb: (l) => '${l.library} › ${l.categories}',
+    open: (c) => const LibrarySettingsRoute(
+      highlight: 'perCategorySortAndFilters',
+    ).push(c),
+    visible: (_, _) => true,
   ),
   SettingsSearchEntry(
     id: 'refreshChaptersFromSource',
@@ -461,14 +470,6 @@ List<SettingsSearchEntry> get readerSettingsSearchEntries => [
     subtitle: (l) => l.readerLastPageSwipeToggleDescription,
     breadcrumb: (l) => '${l.reader} › ${l.readerGroupReading}',
     open: (c) => const ReaderSettingsRoute(highlight: 'lastPageSwipe').push(c),
-    visible: (_, _) => true,
-  ),
-  SettingsSearchEntry(
-    id: 'scrollAnimation',
-    title: (l) => l.readerScrollAnimation,
-    breadcrumb: (l) => '${l.reader} › ${l.readerGroupReading}',
-    open: (c) =>
-        const ReaderSettingsRoute(highlight: 'scrollAnimation').push(c),
     visible: (_, _) => true,
   ),
   SettingsSearchEntry(

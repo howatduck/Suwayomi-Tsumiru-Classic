@@ -16,7 +16,9 @@ import '../../../../../utils/network/graphql_errors.dart';
 import '../../../data/category_repository.dart';
 import '../../../data/default_category.dart';
 import '../../../domain/category/category_model.dart';
+import '../../library/controller/category_library_options.dart';
 import '../../library/controller/library_controller.dart';
+import '../../library/controller/library_grouping.dart';
 
 part 'edit_category_controller.g.dart';
 
@@ -30,11 +32,27 @@ class CategoryController extends _$CategoryController {
         ref.watch(viewOfflineNowProvider) ||
         ref.watch(serverUnreachableProvider);
     final categoryRepository = ref.watch(categoryRepositoryProvider);
-    final sync = ref.read(offlineSyncProvider);
-    final defaultIdFuture = ref.watch(defaultCategoryIdProvider.future);
-    final defaultId = await defaultIdFuture.catchError((Object _) => null);
+    var sync = ref.read(offlineSyncProvider);
+    int? defaultId;
+    List<CategoryDto>? result;
     var servedFromCatalog = false;
-    final result = await categoriesWithOfflineFallback(
+    void mirrorCategories() {
+      // Catalog responses are echoes and must not be mirrored back.
+      if (sync != null &&
+          result != null &&
+          defaultId != null &&
+          !servedFromCatalog) {
+        unawaited(sync!.syncCategories(result, defaultCategoryId: defaultId));
+      }
+    }
+
+    ref.listen(offlineSyncProvider, (_, next) {
+      sync = next;
+      mirrorCategories();
+    });
+    final defaultIdFuture = ref.watch(defaultCategoryIdProvider.future);
+    defaultId = await defaultIdFuture.catchError((Object _) => null);
+    result = await categoriesWithOfflineFallback(
       fetch: () => categoryRepository.getCategoryList(),
       db: offlineDb,
       offlineEnabled: offlineDb != null,
@@ -42,13 +60,7 @@ class CategoryController extends _$CategoryController {
       defaultCategoryId: defaultId,
       onCatalogServe: () => servedFromCatalog = true,
     );
-    // Catalog responses are echoes and must not be mirrored back.
-    if (sync != null &&
-        result != null &&
-        defaultId != null &&
-        !servedFromCatalog) {
-      unawaited(sync.syncCategories(result, defaultCategoryId: defaultId));
-    }
+    mirrorCategories();
     return result;
   }
 
@@ -210,13 +222,21 @@ AsyncValue<List<CategoryDto>?> libraryShownCategoryList(Ref ref) {
   if (ref.watch(showEmptyCategoriesSearchProvider).ifNull(false)) return base;
   final searching =
       (ref.watch(libraryQueryDebouncedProvider)?.trim()).isNotBlank;
-  if (!searching && ref.watch(libraryFilterActiveCountProvider) == 0) {
+  if (!searching &&
+      (ref.watch(useCategoryLibraryOptionsProvider) ||
+          ref.watch(libraryFilterActiveCountProvider) == 0)) {
     return base;
   }
+  final activeId = !searching
+      ? null
+      : libraryShowsAllCategorySections(ref)
+      ? ref.watch(libraryVisibleSectionProvider)
+      : ref.watch(libraryActiveCategoryProvider);
   return base.copyWithData((list) {
     if (list.isBlank) return list;
     final shown = list!
         .where((category) {
+          if (activeId != null && category.id == activeId) return true;
           final filtered = ref
               .watch(
                 categoryMangaListWithQueryAndFilterProvider(
